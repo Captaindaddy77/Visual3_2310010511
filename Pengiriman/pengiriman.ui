@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FormPengiriman</class>
+ <widget class="QWidget" name="FormPengiriman">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>700</width>
+    <height>550</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Data Pengiriman</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <!-- Judul -->
+   <item>
+    <widget class="QLabel" name="lblJudul">
+     <property name="styleSheet">
+      <string notr="true">font-size:18px; font-weight:bold; color:#2b5fab;</string>
+     </property>
+     <property name="text">
+      <string>Form Input Pengiriman</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+
+   <!-- Form Input -->
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="lblPengirimanID">
+       <property name="text"><string>ID Pengiriman</string></property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="txtPengirimanID"/>
+     </item>
+
+     <item row="1" column="0">
+      <widget class="QLabel" name="lblBarangID">
+       <property name="text"><string>ID Barang</string></property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="txtBarangID"/>
+     </item>
+
+     <item row="2" column="0">
+      <widget class="QLabel" name="lblAsal">
+       <property name="text"><string>Asal</string></property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="txtAsal"/>
+     </item>
+
+     <item row="3" column="0">
+      <widget class="QLabel" name="lblTujuan">
+       <property name="text"><string>Tujuan</string></property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="txtTujuan"/>
+     </item>
+
+     <item row="4" column="0">
+      <widget class="QLabel" name="lblJarak">
+       <property name="text"><string>Jarak (km)</string></property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="txtJarak"/>
+     </item>
+
+     <item row="5" column="0">
+      <widget class="QLabel" name="lblBiaya">
+       <property name="text"><string>Biaya Kirim (Rp)</string></property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QLineEdit" name="txtBiaya"/>
+     </item>
+
+     <item row="6" column="0">
+      <widget class="QLabel" name="lblStatus">
+       <property name="text"><string>Status</string></property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="QComboBox" name="cmbStatus"/>
+     </item>
+
+     <item row="7" column="0">
+      <widget class="QLabel" name="lblTanggalKirim">
+       <property name="text"><string>Tanggal Kirim</string></property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QDateEdit" name="txtTanggalKirim">
+       <property name="displayFormat"><string>yyyy-MM-dd</string></property>
+       <property name="calendarPopup"><bool>true</bool></property>
+      </widget>
+     </item>
+
+     <item row="8" column="0">
+      <widget class="QLabel" name="lblTanggalTerima">
+       <property name="text"><string>Tanggal Terima</string></property>
+      </widget>
+     </item>
+     <item row="8" column="1">
+      <widget class="QDateEdit" name="txtTanggalTerima">
+       <property name="displayFormat"><string>yyyy-MM-dd</string></property>
+       <property name="calendarPopup"><bool>true</bool></property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+
+   <!-- Tombol Aksi -->
+   <item>
+    <layout class="QHBoxLayout" name="buttonLayout">
+     <item>
+      <widget class="QPushButton" name="btnSimpan">
+       <property name="text"><string>Simpan</string></property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnUbah">
+       <property name="text"><string>Ubah</string></property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnCari">
+       <property name="text"><string>Cari</string></property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnHapus">
+       <property name="text"><string>Hapus</string></property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnBersih">
+       <property name="text"><string>Bersih</string></property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+
+   <!-- Table -->
+   <item>
+    <widget class="QTableWidget" name="tablePengiriman">
+     <property name="columnCount"><number>9</number></property>
+     <column>
+      <property name="text"><string>ID Pengiriman</string></property>
+     </column>
+     <column>
+      <property name="text"><string>ID Barang</string></property>
+     </column>
+     <column>
+      <property name="text"><string>Asal</string></property>
+     </column>
+     <column>
+      <property name="text"><string>Tujuan</string></property>
+     </column>
+     <column>
+      <property name="text"><string>Jarak (km)</string></property>
+     </column>
+     <column>
+      <property name="text"><string>Biaya (Rp)</string></property>
+     </column>
+     <column>
+      <property name="text"><string>Status</string></property>
+     </column>
+     <column>
+      <property name="text"><string>Tanggal Kirim</string></property>
+     </column>
+     <column>
+      <property name="text"><string>Tanggal Terima</string></property>
+     </column>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

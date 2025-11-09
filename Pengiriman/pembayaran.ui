@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FormPembayaran</class>
+ <widget class="QWidget" name="FormPembayaran">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>520</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Data Pembayaran</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="lblJudul">
+     <property name="styleSheet">
+      <string notr="true">font-size:18px; font-weight:bold; color:#2b5fab;</string>
+     </property>
+     <property name="text">
+      <string>Form Input Pembayaran</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="lblPembayaranID">
+       <property name="text">
+        <string>ID Pembayaran</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="txtPembayaranID"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="lblPengirimanID">
+       <property name="text">
+        <string>ID Pengiriman</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="txtPengirimanID"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="lblMetode">
+       <property name="text">
+        <string>Metode Pembayaran</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QComboBox" name="comboMetode">
+       <item>
+        <property name="text">
+         <string>transfer</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>cod</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ewallet</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="lblJumlah">
+       <property name="text">
+        <string>Jumlah (Rp)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="txtJumlah"/>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="lblStatus">
+       <property name="text">
+        <string>Status Pembayaran</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QComboBox" name="comboStatus">
+       <item>
+        <property name="text">
+         <string>belum</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>sudah</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="lblTanggalBayar">
+       <property name="text">
+        <string>Tanggal Bayar</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QDateEdit" name="dateTanggalBayar">
+       <property name="displayFormat">
+        <string>yyyy-MM-dd</string>
+       </property>
+       <property name="calendarPopup">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="buttonLayout">
+     <item>
+      <widget class="QPushButton" name="btnSimpan">
+       <property name="text">
+        <string>Simpan</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnUbah">
+       <property name="text">
+        <string>Ubah</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnCari">
+       <property name="text">
+        <string>Cari</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnHapus">
+       <property name="text">
+        <string>Hapus</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnBersih">
+       <property name="text">
+        <string>Bersih</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTableWidget" name="tablePembayaran">
+     <property name="columnCount">
+      <number>6</number>
+     </property>
+     <column>
+      <property name="text">
+       <string>ID Pembayaran</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>ID Pengiriman</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Metode</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Jumlah</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Status</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Tanggal Bayar</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

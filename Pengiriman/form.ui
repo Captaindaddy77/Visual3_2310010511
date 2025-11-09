@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Main</class>
+ <widget class="QMainWindow" name="Main">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Main</string>
+  </property>
+  <widget class="QWidget" name="HalamanUtama"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuMenu">
+    <property name="title">
+     <string>Menu</string>
+    </property>
+    <addaction name="actionAdmin"/>
+    <addaction name="actionBarang"/>
+    <addaction name="actionPengiriman"/>
+    <addaction name="actionPembayaran"/>
+    <addaction name="separator"/>
+    <addaction name="actionKurir"/>
+    <addaction name="actionTracking"/>
+   </widget>
+   <addaction name="menuMenu"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionAdmin">
+   <property name="text">
+    <string>Admin</string>
+   </property>
+  </action>
+  <action name="actionBarang">
+   <property name="text">
+    <string>Barang</string>
+   </property>
+  </action>
+  <action name="actionPembayaran">
+   <property name="text">
+    <string>Pembayaran</string>
+   </property>
+  </action>
+  <action name="actionPengiriman">
+   <property name="text">
+    <string>Pengiriman</string>
+   </property>
+  </action>
+  <action name="actionKurir">
+   <property name="text">
+    <string>Kurir</string>
+   </property>
+  </action>
+  <action name="actionTracking">
+   <property name="text">
+    <string>Tracking</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

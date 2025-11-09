@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FormBarang</class>
+ <widget class="QWidget" name="FormBarang">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>520</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Data Barang</string>
+  </property>
+
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <!-- Judul -->
+   <item>
+    <widget class="QLabel" name="lblJudul">
+     <property name="text">
+      <string>Form Input Barang</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size:18px; font-weight:bold; color:#2b5fab;</string>
+     </property>
+    </widget>
+   </item>
+
+   <!-- Form Input -->
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="lblBarangID">
+       <property name="text">
+        <string>ID Barang</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="txtBarangID"/>
+     </item>
+
+     <item row="1" column="0">
+      <widget class="QLabel" name="lblUserID">
+       <property name="text">
+        <string>User ID</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="txtUserID"/>
+     </item>
+
+     <item row="2" column="0">
+      <widget class="QLabel" name="lblNamaBarang">
+       <property name="text">
+        <string>Nama Barang</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="txtNamaBarang"/>
+     </item>
+
+     <item row="3" column="0">
+      <widget class="QLabel" name="lblBerat">
+       <property name="text">
+        <string>Berat (gram/kg)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="txtBerat"/>
+     </item>
+
+     <item row="4" column="0">
+      <widget class="QLabel" name="lblDeskripsi">
+       <property name="text">
+        <string>Deskripsi</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="txtDeskripsi"/>
+     </item>
+
+     <item row="5" column="0">
+      <widget class="QLabel" name="lblTanggal">
+       <property name="text">
+        <string>Tanggal Input</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QDateEdit" name="dateTanggalInput">
+       <property name="calendarPopup">
+        <bool>true</bool>
+       </property>
+       <property name="displayFormat">
+        <string>yyyy-MM-dd</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+
+   <!-- Tombol -->
+   <item>
+    <layout class="QHBoxLayout" name="buttonLayout">
+     <item><widget class="QPushButton" name="btnSimpan"><property name="text"><string>Simpan</string></property></widget></item>
+     <item><widget class="QPushButton" name="btnUbah"><property name="text"><string>Ubah</string></property></widget></item>
+     <item><widget class="QPushButton" name="btnCari"><property name="text"><string>Cari</string></property></widget></item>
+     <item><widget class="QPushButton" name="btnHapus"><property name="text"><string>Hapus</string></property></widget></item>
+     <item><widget class="QPushButton" name="btnBersih"><property name="text"><string>Bersih</string></property></widget></item>
+    </layout>
+   </item>
+
+   <!-- Tabel Data -->
+   <item>
+    <widget class="QTableWidget" name="tableBarang">
+     <property name="columnCount">
+      <number>6</number>
+     </property>
+     <column>
+      <property name="text">
+       <string>ID Barang</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>User ID</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Nama Barang</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Berat</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Deskripsi</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Tanggal Input</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

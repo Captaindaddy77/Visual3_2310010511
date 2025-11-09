@@ -1,0 +1,5 @@
+[project]
+name = "PySide Widgets Project"
+
+[tool.pyside6-project]
+files = ["barang.py", "barang.ui", "crudDB.py", "form.ui", "kurir.py", "kurir.ui", "main.py", "pembayaran.py", "pembayaran.ui", "pengiriman.py", "pengiriman.ui", "tracking.py", "tracking.ui"]
