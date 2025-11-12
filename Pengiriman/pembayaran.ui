@@ -142,13 +142,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btnCari">
-       <property name="text">
-        <string>Cari</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="btnHapus">
        <property name="text">
         <string>Hapus</string>
@@ -163,6 +156,9 @@
       </widget>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="editCari"/>
    </item>
    <item>
     <widget class="QTableWidget" name="tablePembayaran">

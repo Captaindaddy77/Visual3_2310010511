@@ -116,11 +116,6 @@ class Ui_FormTracking(object):
 
         self.buttonLayout.addWidget(self.btnUbah)
 
-        self.btnCari = QPushButton(FormTracking)
-        self.btnCari.setObjectName(u"btnCari")
-
-        self.buttonLayout.addWidget(self.btnCari)
-
         self.btnHapus = QPushButton(FormTracking)
         self.btnHapus.setObjectName(u"btnHapus")
 
@@ -133,6 +128,11 @@ class Ui_FormTracking(object):
 
 
         self.verticalLayout.addLayout(self.buttonLayout)
+
+        self.editCari = QLineEdit(FormTracking)
+        self.editCari.setObjectName(u"editCari")
+
+        self.verticalLayout.addWidget(self.editCari)
 
         self.tableTracking = QTableWidget(FormTracking)
         if (self.tableTracking.columnCount() < 6):
@@ -177,7 +177,6 @@ class Ui_FormTracking(object):
         self.dateTimeUpdate.setDisplayFormat(QCoreApplication.translate("FormTracking", u"yyyy-MM-dd HH:mm:ss", None))
         self.btnSimpan.setText(QCoreApplication.translate("FormTracking", u"Simpan", None))
         self.btnUbah.setText(QCoreApplication.translate("FormTracking", u"Ubah", None))
-        self.btnCari.setText(QCoreApplication.translate("FormTracking", u"Cari", None))
         self.btnHapus.setText(QCoreApplication.translate("FormTracking", u"Hapus", None))
         self.btnBersih.setText(QCoreApplication.translate("FormTracking", u"Bersih", None))
         ___qtablewidgetitem = self.tableTracking.horizontalHeaderItem(0)

@@ -117,11 +117,6 @@ class Ui_FormPembayaran(object):
 
         self.buttonLayout.addWidget(self.btnUbah)
 
-        self.btnCari = QPushButton(FormPembayaran)
-        self.btnCari.setObjectName(u"btnCari")
-
-        self.buttonLayout.addWidget(self.btnCari)
-
         self.btnHapus = QPushButton(FormPembayaran)
         self.btnHapus.setObjectName(u"btnHapus")
 
@@ -134,6 +129,11 @@ class Ui_FormPembayaran(object):
 
 
         self.verticalLayout.addLayout(self.buttonLayout)
+
+        self.editCari = QLineEdit(FormPembayaran)
+        self.editCari.setObjectName(u"editCari")
+
+        self.verticalLayout.addWidget(self.editCari)
 
         self.tablePembayaran = QTableWidget(FormPembayaran)
         if (self.tablePembayaran.columnCount() < 6):
@@ -180,7 +180,6 @@ class Ui_FormPembayaran(object):
         self.dateTanggalBayar.setDisplayFormat(QCoreApplication.translate("FormPembayaran", u"yyyy-MM-dd", None))
         self.btnSimpan.setText(QCoreApplication.translate("FormPembayaran", u"Simpan", None))
         self.btnUbah.setText(QCoreApplication.translate("FormPembayaran", u"Ubah", None))
-        self.btnCari.setText(QCoreApplication.translate("FormPembayaran", u"Cari", None))
         self.btnHapus.setText(QCoreApplication.translate("FormPembayaran", u"Hapus", None))
         self.btnBersih.setText(QCoreApplication.translate("FormPembayaran", u"Bersih", None))
         ___qtablewidgetitem = self.tablePembayaran.horizontalHeaderItem(0)

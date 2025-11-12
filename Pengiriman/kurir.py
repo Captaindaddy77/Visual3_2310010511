@@ -6,31 +6,22 @@ from PySide6.QtCore import QFile
 import mysql.connector
 from mysql.connector import Error
 
+
 class kurir(QWidget):
     def __init__(self):
         super().__init__()
-        # Load UI
+
+        # ------------------ LOAD UI ------------------ #
         ui_file = QFile("kurir.ui")
         if not ui_file.exists():
-            print("File kurir.ui tidak ditemukan!")
+            QMessageBox.critical(None, "Kesalahan", "File kurir.ui tidak ditemukan!")
             sys.exit(-1)
         ui_file.open(QFile.ReadOnly)
         loader = QUiLoader()
-        self.ui = loader.load(ui_file, self)
+        self.formKurir = loader.load(ui_file, self)
         ui_file.close()
 
-        # Set combo status sesuai enum
-        self.ui.cmbStatus.clear()
-        self.ui.cmbStatus.addItems(["aktif", "nonaktif"])
-
-        # Connect buttons
-        self.ui.btnSimpan.clicked.connect(self.simpan)
-        self.ui.btnUbah.clicked.connect(self.ubah)
-        self.ui.btnHapus.clicked.connect(self.hapus)
-        self.ui.btnCari.clicked.connect(self.cari)
-        self.ui.btnBersih.clicked.connect(self.bersih)
-
-        # Initialize database dengan pengecekan koneksi
+        # ------------------ INISIALISASI DB ------------------ #
         try:
             self.koneksi = mysql.connector.connect(
                 host="localhost",
@@ -38,96 +29,191 @@ class kurir(QWidget):
                 password="",
                 database="sistem_pengiriman"
             )
-            self.cursor = self.koneksi.cursor()
-            print("Koneksi database berhasil")  # <-- tampil di terminal
+            self.cursor = self.koneksi.cursor(dictionary=True)
+            print("Koneksi database berhasil.")
         except Error as e:
-            print(f"Gagal koneksi ke database: {e}")
+            QMessageBox.critical(None, "Kesalahan", f"Gagal koneksi database:\n{e}")
             sys.exit(-1)
 
-        # Load data awal
-        self.load_data()
+        # ------------------ ISI COMBOBOX STATUS ------------------ #
+        self.formKurir.cmbStatus.clear()
+        self.formKurir.cmbStatus.addItems(["aktif", "nonaktif"])
 
-    def load_data(self):
-        self.ui.tableKurir.setRowCount(0)
-        self.cursor.execute("SELECT * FROM kurir")
-        for row_data in self.cursor.fetchall():
-            row = self.ui.tableKurir.rowCount()
-            self.ui.tableKurir.insertRow(row)
-            for column, data in enumerate(row_data):
-                self.ui.tableKurir.setItem(row, column, QTableWidgetItem(str(data)))
+        # ------------------ KONEKSI TOMBOL ------------------ #
+        self.formKurir.btnSimpan.clicked.connect(self.doSimpanKurir)
+        self.formKurir.btnUbah.clicked.connect(self.doUbahKurir)
+        self.formKurir.btnHapus.clicked.connect(self.doHapusKurir)
+        self.formKurir.btnBersih.clicked.connect(self.doBersihKurir)
+        self.formKurir.editCari.textChanged.connect(self.doCariKurir)
 
-    def simpan(self):
-        try:
-            sql = "INSERT INTO kurir (kurir_id, nama_kurir, no_hp, email, plat_nomor, status) VALUES (%s,%s,%s,%s,%s,%s)"
-            val = (
-                self.ui.txtKurirID.text(),
-                self.ui.txtNamaKurir.text(),
-                self.ui.txtNoHP.text(),
-                self.ui.txtEmail.text(),
-                self.ui.txtPlatNomor.text(),
-                self.ui.cmbStatus.currentText()
-            )
-            self.cursor.execute(sql, val)
-            self.koneksi.commit()
-            print("Data berhasil disimpan")  # tampil di terminal
-            self.load_data()
-        except Exception as e:
-            print(f"Error simpan: {e}")
+        # ------------------ TAMPIL DATA AWAL ------------------ #
+        self.tampilData()
 
-    def ubah(self):
-        try:
-            sql = """UPDATE kurir SET
-                     nama_kurir=%s, no_hp=%s, email=%s, plat_nomor=%s, status=%s
-                     WHERE kurir_id=%s"""
-            val = (
-                self.ui.txtNamaKurir.text(),
-                self.ui.txtNoHP.text(),
-                self.ui.txtEmail.text(),
-                self.ui.txtPlatNomor.text(),
-                self.ui.cmbStatus.currentText(),
-                self.ui.txtKurirID.text()
-            )
-            self.cursor.execute(sql, val)
-            self.koneksi.commit()
-            print("Data berhasil diubah")  # tampil di terminal
-            self.load_data()
-        except Exception as e:
-            print(f"Error ubah: {e}")
+    # =======================================================
+    # SIMPAN DATA
+    # =======================================================
+    def doSimpanKurir(self):
+        id_kurir = self.formKurir.txtKurirID.text().strip()
+        nama = self.formKurir.txtNamaKurir.text().strip()
+        no_hp = self.formKurir.txtNoHP.text().strip()
+        email = self.formKurir.txtEmail.text().strip()
+        plat = self.formKurir.txtPlatNomor.text().strip()
+        status = self.formKurir.cmbStatus.currentText()
 
-    def hapus(self):
-        try:
-            sql = "DELETE FROM kurir WHERE kurir_id=%s"
-            val = (self.ui.txtKurirID.text(),)
-            self.cursor.execute(sql, val)
-            self.koneksi.commit()
-            print("Data berhasil dihapus")  # tampil di terminal
-            self.load_data()
-        except Exception as e:
-            print(f"Error hapus: {e}")
+        # Validasi input
+        if not id_kurir:
+            QMessageBox.information(None, "Informasi", "ID Kurir belum diisi.")
+            self.formKurir.txtKurirID.setFocus()
+            return
+        if not nama:
+            QMessageBox.information(None, "Informasi", "Nama Kurir belum diisi.")
+            self.formKurir.txtNamaKurir.setFocus()
+            return
 
-    def cari(self):
-        keyword = self.ui.txtKurirID.text()
-        self.ui.tableKurir.setRowCount(0)
-        self.cursor.execute(
-            "SELECT * FROM kurir WHERE kurir_id LIKE %s OR nama_kurir LIKE %s",
-            (f"%{keyword}%", f"%{keyword}%")
+        # Konfirmasi simpan
+        pesan = QMessageBox.question(
+            None,
+            "Konfirmasi",
+            "Apakah Anda yakin ingin menyimpan data ini?",
+            QMessageBox.Yes | QMessageBox.No
         )
-        for row_data in self.cursor.fetchall():
-            row = self.ui.tableKurir.rowCount()
-            self.ui.tableKurir.insertRow(row)
-            for column, data in enumerate(row_data):
-                self.ui.tableKurir.setItem(row, column, QTableWidgetItem(str(data)))
+        if pesan == QMessageBox.Yes:
+            try:
+                sql = """
+                    INSERT INTO kurir (kurir_id, nama_kurir, no_hp, email, plat_nomor, status)
+                    VALUES (%s, %s, %s, %s, %s, %s)
+                """
+                val = (id_kurir, nama, no_hp, email, plat, status)
+                self.cursor.execute(sql, val)
+                self.koneksi.commit()
+                QMessageBox.information(None, "Informasi", "Data berhasil disimpan.")
+                self.tampilData()
+            except Exception as e:
+                QMessageBox.critical(None, "Kesalahan", f"Gagal menyimpan data:\n{e}")
 
-    def bersih(self):
-        self.ui.txtKurirID.clear()
-        self.ui.txtNamaKurir.clear()
-        self.ui.txtNoHP.clear()
-        self.ui.txtEmail.clear()
-        self.ui.txtPlatNomor.clear()
-        self.ui.cmbStatus.setCurrentIndex(0)
+    # =======================================================
+    # UBAH DATA
+    # =======================================================
+    def doUbahKurir(self):
+        id_kurir = self.formKurir.txtKurirID.text().strip()
+        nama = self.formKurir.txtNamaKurir.text().strip()
+        no_hp = self.formKurir.txtNoHP.text().strip()
+        email = self.formKurir.txtEmail.text().strip()
+        plat = self.formKurir.txtPlatNomor.text().strip()
+        status = self.formKurir.cmbStatus.currentText()
 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = kurir()
-    window.show()
-    sys.exit(app.exec())
+        if not id_kurir:
+            QMessageBox.information(None, "Informasi", "Pilih data yang akan diubah.")
+            return
+
+        try:
+            sql = """
+                UPDATE kurir
+                SET nama_kurir=%s, no_hp=%s, email=%s, plat_nomor=%s, status=%s
+                WHERE kurir_id=%s
+            """
+            val = (nama, no_hp, email, plat, status, id_kurir)
+            self.cursor.execute(sql, val)
+            self.koneksi.commit()
+            QMessageBox.information(None, "Informasi", "Data berhasil diubah.")
+            self.tampilData()
+        except Exception as e:
+            QMessageBox.critical(None, "Kesalahan", f"Gagal mengubah data:\n{e}")
+
+    # =======================================================
+    # HAPUS DATA
+    # =======================================================
+    def doHapusKurir(self):
+        id_kurir = self.formKurir.txtKurirID.text().strip()
+
+        if not id_kurir:
+            QMessageBox.information(None, "Informasi", "Masukkan ID Kurir yang akan dihapus.")
+            return
+
+        pesan = QMessageBox.question(
+            None,
+            "Konfirmasi",
+            "Apakah Anda yakin ingin menghapus data ini?",
+            QMessageBox.Yes | QMessageBox.No
+        )
+        if pesan == QMessageBox.Yes:
+            try:
+                sql = "DELETE FROM kurir WHERE kurir_id = %s"
+                self.cursor.execute(sql, (id_kurir,))
+                self.koneksi.commit()
+                QMessageBox.information(None, "Informasi", "Data berhasil dihapus.")
+                self.tampilData()
+            except Exception as e:
+                QMessageBox.critical(None, "Kesalahan", f"Gagal menghapus data:\n{e}")
+
+    # =======================================================
+    # CARI DATA
+    # =======================================================
+    def doCariKurir(self):
+        keyword = self.formKurir.editCari.text().strip()
+        self.formKurir.tableKurir.setRowCount(0)
+
+        try:
+            sql = """
+                SELECT * FROM kurir
+                WHERE kurir_id LIKE %s
+                   OR nama_kurir LIKE %s
+                   OR no_hp LIKE %s
+                   OR email LIKE %s
+                   OR plat_nomor LIKE %s
+                   OR status LIKE %s
+            """
+            val = [f"%{keyword}%"] * 6
+            self.cursor.execute(sql, val)
+            hasil = self.cursor.fetchall()
+
+            for row_data in hasil:
+                i = self.formKurir.tableKurir.rowCount()
+                self.formKurir.tableKurir.insertRow(i)
+                self.formKurir.tableKurir.setItem(i, 0, QTableWidgetItem(str(row_data["kurir_id"])))
+                self.formKurir.tableKurir.setItem(i, 1, QTableWidgetItem(row_data["nama_kurir"]))
+                self.formKurir.tableKurir.setItem(i, 2, QTableWidgetItem(row_data["no_hp"]))
+                self.formKurir.tableKurir.setItem(i, 3, QTableWidgetItem(row_data["email"]))
+                self.formKurir.tableKurir.setItem(i, 4, QTableWidgetItem(row_data["plat_nomor"]))
+                self.formKurir.tableKurir.setItem(i, 5, QTableWidgetItem(row_data["status"]))
+        except Exception as e:
+            QMessageBox.critical(None, "Kesalahan", f"Gagal mencari data:\n{e}")
+
+    # =======================================================
+    # BERSIHKAN FORM
+    # =======================================================
+    def doBersihKurir(self):
+        self.formKurir.txtKurirID.clear()
+        self.formKurir.txtNamaKurir.clear()
+        self.formKurir.txtNoHP.clear()
+        self.formKurir.txtEmail.clear()
+        self.formKurir.txtPlatNomor.clear()
+        self.formKurir.cmbStatus.setCurrentIndex(0)
+        self.formKurir.editCari.clear()
+        self.tampilData()
+
+    # =======================================================
+    # TAMPIL DATA
+    # =======================================================
+    def tampilData(self):
+        try:
+            self.formKurir.tableKurir.setRowCount(0)
+            self.cursor.execute("SELECT * FROM kurir ORDER BY kurir_id ASC")
+            hasil = self.cursor.fetchall()
+
+            for row_data in hasil:
+                i = self.formKurir.tableKurir.rowCount()
+                self.formKurir.tableKurir.insertRow(i)
+                self.formKurir.tableKurir.setItem(i, 0, QTableWidgetItem(str(row_data["kurir_id"])))
+                self.formKurir.tableKurir.setItem(i, 1, QTableWidgetItem(row_data["nama_kurir"]))
+                self.formKurir.tableKurir.setItem(i, 2, QTableWidgetItem(row_data["no_hp"]))
+                self.formKurir.tableKurir.setItem(i, 3, QTableWidgetItem(row_data["email"]))
+                self.formKurir.tableKurir.setItem(i, 4, QTableWidgetItem(row_data["plat_nomor"]))
+                self.formKurir.tableKurir.setItem(i, 5, QTableWidgetItem(row_data["status"]))
+
+            self.formKurir.tableKurir.resizeColumnsToContents()
+        except Exception as e:
+            QMessageBox.critical(None, "Kesalahan", f"Gagal menampilkan data:\n{e}")
+
+
+

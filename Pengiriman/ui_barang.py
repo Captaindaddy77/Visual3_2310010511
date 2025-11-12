@@ -29,8 +29,8 @@ class Ui_FormBarang(object):
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.lblJudul = QLabel(FormBarang)
         self.lblJudul.setObjectName(u"lblJudul")
-        self.lblJudul.setAlignment(Qt.AlignCenter)
         self.lblJudul.setStyleSheet(u"font-size:18px; font-weight:bold; color:#2b5fab;")
+        self.lblJudul.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.verticalLayout.addWidget(self.lblJudul)
 
@@ -112,11 +112,6 @@ class Ui_FormBarang(object):
 
         self.buttonLayout.addWidget(self.btnUbah)
 
-        self.btnCari = QPushButton(FormBarang)
-        self.btnCari.setObjectName(u"btnCari")
-
-        self.buttonLayout.addWidget(self.btnCari)
-
         self.btnHapus = QPushButton(FormBarang)
         self.btnHapus.setObjectName(u"btnHapus")
 
@@ -129,6 +124,11 @@ class Ui_FormBarang(object):
 
 
         self.verticalLayout.addLayout(self.buttonLayout)
+
+        self.editCari = QLineEdit(FormBarang)
+        self.editCari.setObjectName(u"editCari")
+
+        self.verticalLayout.addWidget(self.editCari)
 
         self.tableBarang = QTableWidget(FormBarang)
         if (self.tableBarang.columnCount() < 6):
@@ -168,7 +168,6 @@ class Ui_FormBarang(object):
         self.dateTanggalInput.setDisplayFormat(QCoreApplication.translate("FormBarang", u"yyyy-MM-dd", None))
         self.btnSimpan.setText(QCoreApplication.translate("FormBarang", u"Simpan", None))
         self.btnUbah.setText(QCoreApplication.translate("FormBarang", u"Ubah", None))
-        self.btnCari.setText(QCoreApplication.translate("FormBarang", u"Cari", None))
         self.btnHapus.setText(QCoreApplication.translate("FormBarang", u"Hapus", None))
         self.btnBersih.setText(QCoreApplication.translate("FormBarang", u"Bersih", None))
         ___qtablewidgetitem = self.tableBarang.horizontalHeaderItem(0)

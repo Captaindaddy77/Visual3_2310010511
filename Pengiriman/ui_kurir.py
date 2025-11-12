@@ -113,11 +113,6 @@ class Ui_FormKurir(object):
 
         self.buttonLayout.addWidget(self.btnUbah)
 
-        self.btnCari = QPushButton(FormKurir)
-        self.btnCari.setObjectName(u"btnCari")
-
-        self.buttonLayout.addWidget(self.btnCari)
-
         self.btnHapus = QPushButton(FormKurir)
         self.btnHapus.setObjectName(u"btnHapus")
 
@@ -130,6 +125,11 @@ class Ui_FormKurir(object):
 
 
         self.verticalLayout.addLayout(self.buttonLayout)
+
+        self.editCari = QLineEdit(FormKurir)
+        self.editCari.setObjectName(u"editCari")
+
+        self.verticalLayout.addWidget(self.editCari)
 
         self.tableKurir = QTableWidget(FormKurir)
         if (self.tableKurir.columnCount() < 6):
@@ -171,7 +171,6 @@ class Ui_FormKurir(object):
 
         self.btnSimpan.setText(QCoreApplication.translate("FormKurir", u"Simpan", None))
         self.btnUbah.setText(QCoreApplication.translate("FormKurir", u"Ubah", None))
-        self.btnCari.setText(QCoreApplication.translate("FormKurir", u"Cari", None))
         self.btnHapus.setText(QCoreApplication.translate("FormKurir", u"Hapus", None))
         self.btnBersih.setText(QCoreApplication.translate("FormKurir", u"Bersih", None))
         ___qtablewidgetitem = self.tableKurir.horizontalHeaderItem(0)

@@ -30,7 +30,7 @@ class Ui_FormPengiriman(object):
         self.lblJudul = QLabel(FormPengiriman)
         self.lblJudul.setObjectName(u"lblJudul")
         self.lblJudul.setStyleSheet(u"font-size:18px; font-weight:bold; color:#2b5fab;")
-        self.lblJudul.setAlignment(Qt.AlignCenter)
+        self.lblJudul.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.verticalLayout.addWidget(self.lblJudul)
 
@@ -131,6 +131,11 @@ class Ui_FormPengiriman(object):
 
         self.verticalLayout.addLayout(self.formLayout)
 
+        self.editCari = QLineEdit(FormPengiriman)
+        self.editCari.setObjectName(u"editCari")
+
+        self.verticalLayout.addWidget(self.editCari)
+
         self.buttonLayout = QHBoxLayout()
         self.buttonLayout.setObjectName(u"buttonLayout")
         self.btnSimpan = QPushButton(FormPengiriman)
@@ -142,11 +147,6 @@ class Ui_FormPengiriman(object):
         self.btnUbah.setObjectName(u"btnUbah")
 
         self.buttonLayout.addWidget(self.btnUbah)
-
-        self.btnCari = QPushButton(FormPengiriman)
-        self.btnCari.setObjectName(u"btnCari")
-
-        self.buttonLayout.addWidget(self.btnCari)
 
         self.btnHapus = QPushButton(FormPengiriman)
         self.btnHapus.setObjectName(u"btnHapus")
@@ -209,7 +209,6 @@ class Ui_FormPengiriman(object):
         self.txtTanggalTerima.setDisplayFormat(QCoreApplication.translate("FormPengiriman", u"yyyy-MM-dd", None))
         self.btnSimpan.setText(QCoreApplication.translate("FormPengiriman", u"Simpan", None))
         self.btnUbah.setText(QCoreApplication.translate("FormPengiriman", u"Ubah", None))
-        self.btnCari.setText(QCoreApplication.translate("FormPengiriman", u"Cari", None))
         self.btnHapus.setText(QCoreApplication.translate("FormPengiriman", u"Hapus", None))
         self.btnBersih.setText(QCoreApplication.translate("FormPengiriman", u"Bersih", None))
         ___qtablewidgetitem = self.tablePengiriman.horizontalHeaderItem(0)

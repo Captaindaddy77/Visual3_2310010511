@@ -1,7 +1,7 @@
 # This Python file uses the following encoding: utf-8
 import sys
 import os
-from PySide6.QtWidgets import QApplication, QWidget, QTableWidgetItem
+from PySide6.QtWidgets import QApplication, QWidget, QTableWidgetItem, QMessageBox
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QFile, QDate
 from crudDB import my_cruddb
@@ -10,126 +10,134 @@ from crudDB import my_cruddb
 class barang(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-
-        # Pastikan path file UI benar
         current_dir = os.path.dirname(os.path.abspath(__file__))
         ui_path = os.path.join(current_dir, "barang.ui")
 
         file_ui = QFile(ui_path)
         if not file_ui.exists():
-            print(f"File UI tidak ditemukan: {ui_path}")
+            QMessageBox.warning(None, "Peringatan", f"File UI tidak ditemukan:\n{ui_path}")
         file_ui.open(QFile.ReadOnly)
-
         loader = QUiLoader()
         self.formBarang = loader.load(file_ui, self)
         file_ui.close()
 
-        # Inisialisasi koneksi ke database
         self.crud = my_cruddb()
 
-        # Koneksi tombol ke fungsi
-        self.formBarang.btnSimpan.clicked.connect(self.doSimpan)
-        self.formBarang.btnUbah.clicked.connect(self.doUbah)
-        self.formBarang.btnHapus.clicked.connect(self.doHapus)
-        self.formBarang.btnCari.clicked.connect(self.doCari)
-        self.formBarang.btnBersih.clicked.connect(self.doBersih)
+        # Tombol CRUD
+        self.formBarang.btnSimpan.clicked.connect(self.doSimpanBarang)
+        self.formBarang.btnUbah.clicked.connect(self.doUbahBarang)
+        self.formBarang.btnHapus.clicked.connect(self.doHapusBarang)
+        self.formBarang.btnBersih.clicked.connect(self.doBersihBarang)
+        self.formBarang.editCari.textChanged.connect(self.doCariBarang)
 
-        # Tampilkan data awal di tabel
+        # Isi tabel di awal
         self.tampilData()
 
-        # Klik baris tabel untuk isi form
-        self.formBarang.tableBarang.cellClicked.connect(self.isiDariTabel)
+    # -------------------- SIMPAN -------------------- #
+    def doSimpanBarang(self):
+        barang_id = self.formBarang.txtBarangID.text().strip()
+        user_id = self.formBarang.txtUserID.text().strip()
+        nama = self.formBarang.txtNamaBarang.text().strip()
+        berat = self.formBarang.txtBerat.text().strip()
+        desk = self.formBarang.txtDeskripsi.text().strip()
+        tanggal = self.formBarang.dateTanggalInput.date().toString("yyyy-MM-dd")
 
-    # -------------------- FUNGSI CRUD -------------------- #
-    def doSimpan(self):
-        barang_id = self.formBarang.txtBarangID.text()
-        user_id = self.formBarang.txtUserID.text()
-        nama_barang = self.formBarang.txtNamaBarang.text()
-        berat = self.formBarang.txtBerat.text()
-        deskripsi = self.formBarang.txtDeskripsi.text()
-        tanggal_input = self.formBarang.dateTanggalInput.date().toString("yyyy-MM-dd")
+        # Validasi form
+        if not barang_id:
+            QMessageBox.information(None, "Informasi", "ID Barang belum diisi")
+            self.formBarang.txtBarangID.setFocus()
+            return
+        if not user_id:
+            QMessageBox.information(None, "Informasi", "User ID belum diisi")
+            self.formBarang.txtUserID.setFocus()
+            return
+        if not nama:
+            QMessageBox.information(None, "Informasi", "Nama Barang belum diisi")
+            self.formBarang.txtNamaBarang.setFocus()
+            return
 
-        self.crud.simpanBarang(barang_id, user_id, nama_barang, berat, deskripsi, tanggal_input)
+        pesan = QMessageBox.question(
+            None,
+            "Konfirmasi",
+            "Apakah Anda yakin ingin menyimpan data ini?",
+            QMessageBox.Yes | QMessageBox.No
+        )
+        if pesan == QMessageBox.Yes:
+            self.crud.simpanBarang(barang_id, user_id, nama, berat, desk, tanggal)
+            self.tampilData()
+            QMessageBox.information(None, "Informasi", "Data berhasil disimpan")
+
+    # -------------------- UBAH -------------------- #
+    def doUbahBarang(self):
+        barang_id = self.formBarang.txtBarangID.text().strip()
+        user_id = self.formBarang.txtUserID.text().strip()
+        nama = self.formBarang.txtNamaBarang.text().strip()
+        berat = self.formBarang.txtBerat.text().strip()
+        desk = self.formBarang.txtDeskripsi.text().strip()
+        tanggal = self.formBarang.dateTanggalInput.date().toString("yyyy-MM-dd")
+
+        self.crud.ubahBarang(barang_id, user_id, nama, berat, desk, tanggal)
         self.tampilData()
-        print("Data barang berhasil disimpan")
+        QMessageBox.information(None, "Informasi", "Data berhasil diubah")
 
-    def doUbah(self):
-        barang_id = self.formBarang.txtBarangID.text()
-        user_id = self.formBarang.txtUserID.text()
-        nama_barang = self.formBarang.txtNamaBarang.text()
-        berat = self.formBarang.txtBerat.text()
-        deskripsi = self.formBarang.txtDeskripsi.text()
-        tanggal_input = self.formBarang.dateTanggalInput.date().toString("yyyy-MM-dd")
+    # -------------------- HAPUS -------------------- #
+    def doHapusBarang(self):
+        barang_id = self.formBarang.txtBarangID.text().strip()
+        if not barang_id:
+            QMessageBox.information(None, "Informasi", "Pilih data yang ingin dihapus")
+            return
 
-        self.crud.ubahBarang(barang_id, user_id, nama_barang, berat, deskripsi, tanggal_input)
-        self.tampilData()
-        print("Data barang berhasil diubah")
+        pesan = QMessageBox.question(
+            None,
+            "Konfirmasi",
+            "Apakah Anda yakin ingin menghapus data ini?",
+            QMessageBox.Yes | QMessageBox.No
+        )
+        if pesan == QMessageBox.Yes:
+            self.crud.hapusBarang(barang_id)
+            self.tampilData()
+            QMessageBox.information(None, "Informasi", "Data berhasil dihapus")
 
-    def doHapus(self):
-        barang_id = self.formBarang.txtBarangID.text()
-        self.crud.hapusBarang(barang_id)
-        self.tampilData()
-        print("Data barang berhasil dihapus")
-
-    def doCari(self):
-        barang_id = self.formBarang.txtBarangID.text()
-        data = self.crud.cariBarang(barang_id)
-        if data:
-            self.formBarang.txtUserID.setText(str(data["user_id"]))
-            self.formBarang.txtNamaBarang.setText(data["nama_barang"])
-            self.formBarang.txtBerat.setText(str(data["berat"]))
-            self.formBarang.txtDeskripsi.setText(data["deskripsi"])
-            date = QDate.fromString(str(data["tanggal_input"]), "yyyy-MM-dd")
-            self.formBarang.dateTanggalInput.setDate(date)
-        else:
-            print("Data tidak ditemukan")
-
-    def doBersih(self):
+    # -------------------- BERSIH -------------------- #
+    def doBersihBarang(self):
         self.formBarang.txtBarangID.clear()
         self.formBarang.txtUserID.clear()
         self.formBarang.txtNamaBarang.clear()
         self.formBarang.txtBerat.clear()
         self.formBarang.txtDeskripsi.clear()
+        self.formBarang.txtCari.clear()
         self.tampilData()
+
+    # -------------------- CARI -------------------- #
+    def doCariBarang(self):
+        keyword = self.formBarang.editCari.text().strip()
+        hasil = self.crud.cariBarang(keyword)
+
+        self.formBarang.tableBarang.setRowCount(0)
+        for r in hasil:
+            i = self.formBarang.tableBarang.rowCount()
+            self.formBarang.tableBarang.insertRow(i)
+            self.formBarang.tableBarang.setItem(i, 0, QTableWidgetItem(str(r["barang_id"])))
+            self.formBarang.tableBarang.setItem(i, 1, QTableWidgetItem(str(r["user_id"])))
+            self.formBarang.tableBarang.setItem(i, 2, QTableWidgetItem(r["nama_barang"]))
+            self.formBarang.tableBarang.setItem(i, 3, QTableWidgetItem(str(r["berat"])))
+            self.formBarang.tableBarang.setItem(i, 4, QTableWidgetItem(r["deskripsi"]))
+            self.formBarang.tableBarang.setItem(i, 5, QTableWidgetItem(str(r["tanggal_input"])))
 
     # -------------------- TAMPIL DATA -------------------- #
     def tampilData(self):
-        cursor = self.crud.conn.cursor()
-        cursor.execute("SELECT * FROM barang")
-        hasil = cursor.fetchall()
-        cursor.close()
-
-        self.formBarang.tableBarang.setRowCount(len(hasil))
-        self.formBarang.tableBarang.setColumnCount(6)
-        self.formBarang.tableBarang.setHorizontalHeaderLabels([
-            "ID Barang", "User ID", "Nama Barang", "Berat", "Deskripsi", "Tanggal Input"
-        ])
-
-        for i, row in enumerate(hasil):
-            for j, val in enumerate(row):
-                # Hilangkan waktu jika ada format datetime
-                if j == 5 and isinstance(val, str) and " " in val:
-                    val = val.split(" ")[0]
-                self.formBarang.tableBarang.setItem(i, j, QTableWidgetItem(str(val)))
-
+        baris = self.crud.dataBarang()
+        self.formBarang.tableBarang.setRowCount(0)
+        for r in baris:
+            i = self.formBarang.tableBarang.rowCount()
+            self.formBarang.tableBarang.insertRow(i)
+            self.formBarang.tableBarang.setItem(i, 0, QTableWidgetItem(str(r["barang_id"])))
+            self.formBarang.tableBarang.setItem(i, 1, QTableWidgetItem(str(r["user_id"])))
+            self.formBarang.tableBarang.setItem(i, 2, QTableWidgetItem(r["nama_barang"]))
+            self.formBarang.tableBarang.setItem(i, 3, QTableWidgetItem(str(r["berat"])))
+            self.formBarang.tableBarang.setItem(i, 4, QTableWidgetItem(r["deskripsi"]))
+            self.formBarang.tableBarang.setItem(i, 5, QTableWidgetItem(str(r["tanggal_input"])))
         self.formBarang.tableBarang.resizeColumnsToContents()
 
-    # -------------------- ISI FORM DARI TABEL -------------------- #
-    def isiDariTabel(self, row, column):
-        self.formBarang.txtBarangID.setText(self.formBarang.tableBarang.item(row, 0).text())
-        self.formBarang.txtUserID.setText(self.formBarang.tableBarang.item(row, 1).text())
-        self.formBarang.txtNamaBarang.setText(self.formBarang.tableBarang.item(row, 2).text())
-        self.formBarang.txtBerat.setText(self.formBarang.tableBarang.item(row, 3).text())
-        self.formBarang.txtDeskripsi.setText(self.formBarang.tableBarang.item(row, 4).text())
-
-        date_text = self.formBarang.tableBarang.item(row, 5).text()
-        date = QDate.fromString(date_text, "yyyy-MM-dd")
-        self.formBarang.dateTanggalInput.setDate(date)
 
 
-# -------------------- MAIN PROGRAM -------------------- #
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = barang()
-    window.formBarang.show()
-    sys.exit(app.exec())

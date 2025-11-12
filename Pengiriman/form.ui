@@ -27,7 +27,6 @@
     <property name="title">
      <string>Menu</string>
     </property>
-    <addaction name="actionAdmin"/>
     <addaction name="actionBarang"/>
     <addaction name="actionPengiriman"/>
     <addaction name="actionPembayaran"/>

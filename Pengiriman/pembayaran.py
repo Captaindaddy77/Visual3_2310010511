@@ -1,100 +1,152 @@
 # This Python file uses the following encoding: utf-8
+import os
 from PySide6.QtWidgets import QWidget, QMessageBox, QTableWidgetItem
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtCore import QFile
+from PySide6.QtCore import QFile, QDate
 from crudDB import my_cruddb
 
+
 class pembayaran(QWidget):
-    def __init__(self):
-        super().__init__()
-        fileform = QFile("pembayaran.ui")
-        fileform.open(QFile.ReadOnly)
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        ui_path = os.path.join(current_dir, "pembayaran.ui")
+
+        file_ui = QFile(ui_path)
+        if not file_ui.exists():
+            QMessageBox.warning(None, "Peringatan", f"File UI tidak ditemukan:\n{ui_path}")
+        file_ui.open(QFile.ReadOnly)
         loader = QUiLoader()
-        self.form = loader.load(fileform, self)
-        self.setLayout(self.form.layout())
-        fileform.close()
+        self.formPembayaran = loader.load(file_ui, self)
+        file_ui.close()
 
-        self.db = my_cruddb()
+        self.crud = my_cruddb()
 
-        # Tombol
-        self.form.btnSimpan.clicked.connect(self.simpan)
-        self.form.btnUbah.clicked.connect(self.ubah)
-        self.form.btnHapus.clicked.connect(self.hapus)
-        self.form.btnCari.clicked.connect(self.cari)
-        self.form.btnBersih.clicked.connect(self.bersih)
+        # Tombol CRUD
+        self.formPembayaran.btnSimpan.clicked.connect(self.doSimpanPembayaran)
+        self.formPembayaran.btnUbah.clicked.connect(self.doUbahPembayaran)
+        self.formPembayaran.btnHapus.clicked.connect(self.doHapusPembayaran)
+        self.formPembayaran.btnBersih.clicked.connect(self.doBersihPembayaran)
+        self.formPembayaran.editCari.textChanged.connect(self.doCariPembayaran)
 
-        # Tampilkan data awal
-        self.tampil_data()
+        # Isi combo box
+        self.formPembayaran.comboMetode.clear()
+        self.formPembayaran.comboMetode.addItems(["Transfer Bank", "COD", "E-Wallet"])
+        self.formPembayaran.comboStatus.clear()
+        self.formPembayaran.comboStatus.addItems(["Belum Bayar", "Sudah Bayar"])
 
-    def tampil_data(self):
-        data = self.db.tampilPembayaran()
-        self.form.tablePembayaran.setRowCount(len(data))
-        for i, row in enumerate(data):
-            self.form.tablePembayaran.setItem(i, 0, QTableWidgetItem(str(row['pembayaran_id'])))
-            self.form.tablePembayaran.setItem(i, 1, QTableWidgetItem(str(row['pengiriman_id'])))
-            self.form.tablePembayaran.setItem(i, 2, QTableWidgetItem(row['metode']))
-            self.form.tablePembayaran.setItem(i, 3, QTableWidgetItem(str(row['jumlah'])))
-            self.form.tablePembayaran.setItem(i, 4, QTableWidgetItem(row['status_bayar']))
-            self.form.tablePembayaran.setItem(i, 5, QTableWidgetItem(str(row['tanggal_bayar'])))
+        # Isi tabel di awal
+        self.tampilData()
 
-    def simpan(self):
-        try:
-            pembayaran_id = self.form.txtPembayaranID.text()
-            pengiriman_id = self.form.txtPengirimanID.text()
-            metode = self.form.comboMetode.currentText()
-            jumlah = self.form.txtJumlah.text()
-            status_bayar = self.form.comboStatus.currentText()
-            tanggal_bayar = self.form.dateTanggalBayar.text()
+    # -------------------- SIMPAN -------------------- #
+    def doSimpanPembayaran(self):
+        pembayaran_id = self.formPembayaran.txtPembayaranID.text().strip()
+        pengiriman_id = self.formPembayaran.txtPengirimanID.text().strip()
+        metode = self.formPembayaran.comboMetode.currentText().strip()
+        jumlah = self.formPembayaran.txtJumlah.text().strip()
+        status = self.formPembayaran.comboStatus.currentText().strip()
+        tanggal = self.formPembayaran.dateTanggalBayar.date().toString("yyyy-MM-dd")
 
-            self.db.simpanPembayaran(pembayaran_id, pengiriman_id, metode, jumlah, status_bayar, tanggal_bayar)
-            QMessageBox.information(self, "Sukses", "Data pembayaran berhasil disimpan!")
-            self.tampil_data()
-        except Exception as e:
-            QMessageBox.warning(self, "Error", str(e))
+        if not pembayaran_id:
+            QMessageBox.information(None, "Informasi", "ID Pembayaran belum diisi")
+            self.formPembayaran.txtPembayaranID.setFocus()
+            return
+        if not pengiriman_id:
+            QMessageBox.information(None, "Informasi", "Pengiriman ID belum diisi")
+            self.formPembayaran.txtPengirimanID.setFocus()
+            return
+        if not jumlah:
+            QMessageBox.information(None, "Informasi", "Jumlah pembayaran belum diisi")
+            self.formPembayaran.txtJumlah.setFocus()
+            return
 
-    def ubah(self):
-        try:
-            pembayaran_id = self.form.txtPembayaranID.text()
-            pengiriman_id = self.form.txtPengirimanID.text()
-            metode = self.form.comboMetode.currentText()
-            jumlah = self.form.txtJumlah.text()
-            status_bayar = self.form.comboStatus.currentText()
-            tanggal_bayar = self.form.dateTanggalBayar.text()
+        pesan = QMessageBox.question(
+            None,
+            "Konfirmasi",
+            "Apakah Anda yakin ingin menyimpan data ini?",
+            QMessageBox.Yes | QMessageBox.No
+        )
+        if pesan == QMessageBox.Yes:
+            self.crud.simpanPembayaran(
+                pembayaran_id, pengiriman_id, metode, jumlah, status, tanggal
+            )
+            self.tampilData()
+            QMessageBox.information(None, "Informasi", "Data berhasil disimpan")
 
-            self.db.ubahPembayaran(pembayaran_id, pengiriman_id, metode, jumlah, status_bayar, tanggal_bayar)
-            QMessageBox.information(self, "Sukses", "Data pembayaran berhasil diubah!")
-            self.tampil_data()
-        except Exception as e:
-            QMessageBox.warning(self, "Error", str(e))
+    # -------------------- UBAH -------------------- #
+    def doUbahPembayaran(self):
+        pembayaran_id = self.formPembayaran.txtPembayaranID.text().strip()
+        pengiriman_id = self.formPembayaran.txtPengirimanID.text().strip()
+        metode = self.formPembayaran.comboMetode.currentText().strip()
+        jumlah = self.formPembayaran.txtJumlah.text().strip()
+        status = self.formPembayaran.comboStatus.currentText().strip()
+        tanggal = self.formPembayaran.dateTanggalBayar.date().toString("yyyy-MM-dd")
 
-    def hapus(self):
-        try:
-            pembayaran_id = self.form.txtPembayaranID.text()
-            self.db.hapusPembayaran(pembayaran_id)
-            QMessageBox.information(self, "Sukses", "Data pembayaran berhasil dihapus!")
-            self.tampil_data()
-        except Exception as e:
-            QMessageBox.warning(self, "Error", str(e))
+        if not pembayaran_id:
+            QMessageBox.information(None, "Informasi", "Masukkan ID Pembayaran yang akan diubah")
+            return
 
-    def cari(self):
-        try:
-            pembayaran_id = self.form.txtPembayaranID.text()
-            data = self.db.cariPembayaran(pembayaran_id)
-            if data:
-                self.form.txtPengirimanID.setText(str(data['pengiriman_id']))
-                self.form.txtJumlah.setText(str(data['jumlah']))
-                self.form.comboMetode.setCurrentText(data['metode'])
-                self.form.comboStatus.setCurrentText(data['status_bayar'])
-                self.form.dateTanggalBayar.setDate(data['tanggal_bayar'])
-            else:
-                QMessageBox.information(self, "Info", "Data tidak ditemukan.")
-        except Exception as e:
-            QMessageBox.warning(self, "Error", str(e))
+        self.crud.ubahPembayaran(
+            pembayaran_id, pengiriman_id, metode, jumlah, status, tanggal
+        )
+        self.tampilData()
+        QMessageBox.information(None, "Informasi", "Data berhasil diubah")
 
-    def bersih(self):
-        self.form.txtPembayaranID.clear()
-        self.form.txtPengirimanID.clear()
-        self.form.txtJumlah.clear()
-        self.form.comboMetode.setCurrentIndex(0)
-        self.form.comboStatus.setCurrentIndex(0)
-        self.tampil_data()
+    # -------------------- HAPUS -------------------- #
+    def doHapusPembayaran(self):
+        pembayaran_id = self.formPembayaran.txtPembayaranID.text().strip()
+        if not pembayaran_id:
+            QMessageBox.information(None, "Informasi", "Pilih data yang ingin dihapus")
+            return
+
+        pesan = QMessageBox.question(
+            None,
+            "Konfirmasi",
+            "Apakah Anda yakin ingin menghapus data ini?",
+            QMessageBox.Yes | QMessageBox.No
+        )
+        if pesan == QMessageBox.Yes:
+            self.crud.hapusPembayaran(pembayaran_id)
+            self.tampilData()
+            QMessageBox.information(None, "Informasi", "Data berhasil dihapus")
+
+    # -------------------- BERSIH -------------------- #
+    def doBersihPembayaran(self):
+        self.formPembayaran.txtPembayaranID.clear()
+        self.formPembayaran.txtPengirimanID.clear()
+        self.formPembayaran.txtJumlah.clear()
+        self.formPembayaran.comboMetode.setCurrentIndex(0)
+        self.formPembayaran.comboStatus.setCurrentIndex(0)
+        self.formPembayaran.editCari.clear()
+        self.tampilData()
+
+    # -------------------- CARI -------------------- #
+    def doCariPembayaran(self):
+        keyword = self.formPembayaran.editCari.text().strip()
+        hasil = self.crud.cariPembayaranMulti(keyword)
+
+        self.formPembayaran.tablePembayaran.setRowCount(0)
+        for r in hasil:
+            i = self.formPembayaran.tablePembayaran.rowCount()
+            self.formPembayaran.tablePembayaran.insertRow(i)
+            self.formPembayaran.tablePembayaran.setItem(i, 0, QTableWidgetItem(str(r["pembayaran_id"])))
+            self.formPembayaran.tablePembayaran.setItem(i, 1, QTableWidgetItem(str(r["pengiriman_id"])))
+            self.formPembayaran.tablePembayaran.setItem(i, 2, QTableWidgetItem(r["metode"]))
+            self.formPembayaran.tablePembayaran.setItem(i, 3, QTableWidgetItem(str(r["jumlah"])))
+            self.formPembayaran.tablePembayaran.setItem(i, 4, QTableWidgetItem(r["status_bayar"]))
+            self.formPembayaran.tablePembayaran.setItem(i, 5, QTableWidgetItem(str(r["tanggal_bayar"])))
+
+    # -------------------- TAMPIL DATA -------------------- #
+    def tampilData(self):
+        baris = self.crud.tampilPembayaran()
+        self.formPembayaran.tablePembayaran.setRowCount(0)
+        for r in baris:
+            i = self.formPembayaran.tablePembayaran.rowCount()
+            self.formPembayaran.tablePembayaran.insertRow(i)
+            self.formPembayaran.tablePembayaran.setItem(i, 0, QTableWidgetItem(str(r["pembayaran_id"])))
+            self.formPembayaran.tablePembayaran.setItem(i, 1, QTableWidgetItem(str(r["pengiriman_id"])))
+            self.formPembayaran.tablePembayaran.setItem(i, 2, QTableWidgetItem(r["metode"]))
+            self.formPembayaran.tablePembayaran.setItem(i, 3, QTableWidgetItem(str(r["jumlah"])))
+            self.formPembayaran.tablePembayaran.setItem(i, 4, QTableWidgetItem(r["status_bayar"]))
+            self.formPembayaran.tablePembayaran.setItem(i, 5, QTableWidgetItem(str(r["tanggal_bayar"])))
+        self.formPembayaran.tablePembayaran.resizeColumnsToContents()

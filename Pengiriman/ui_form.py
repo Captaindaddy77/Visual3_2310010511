@@ -50,7 +50,6 @@ class Ui_Main(object):
         Main.setStatusBar(self.statusbar)
 
         self.menubar.addAction(self.menuMenu.menuAction())
-        self.menuMenu.addAction(self.actionAdmin)
         self.menuMenu.addAction(self.actionBarang)
         self.menuMenu.addAction(self.actionPengiriman)
         self.menuMenu.addAction(self.actionPembayaran)
