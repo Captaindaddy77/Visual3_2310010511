@@ -2,4 +2,4 @@
 name = "PySide Widgets Project"
 
 [tool.pyside6-project]
-files = ["barang.py", "barang.ui", "crudDB.py", "form.ui", "kurir.py", "kurir.ui", "main.py", "pembayaran.py", "pembayaran.ui", "pengiriman.py", "pengiriman.ui", "tracking.py", "tracking.ui"]
+files = ["barang.py", "barang.ui", "bayar.py", "bayar.ui", "crudDB.py", "form.ui", "kurir.py", "kurir.ui", "main.py", "pembayaran.py", "pengiriman.py", "pengiriman.ui", "tracking.py", "tracking.ui"]

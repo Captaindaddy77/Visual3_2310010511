@@ -130,6 +130,23 @@ class tracking(QWidget):
             self.formTracking.tableTracking.setItem(i, 4, QTableWidgetItem(r["lokasi"]))
             self.formTracking.tableTracking.setItem(i, 5, QTableWidgetItem(str(r["waktu_update"])))
 
+    # -------------------- AUTO ISI FORM -------------------- #
+        if len(hasil) > 0:
+            data = hasil[0]
+
+            self.formTracking.txtTrackingID.setText(str(data["tracking_id"]))
+            self.formTracking.txtPengirimanID.setText(str(data["pengiriman_id"]))
+            self.formTracking.txtKurirID.setText(str(data["kurir_id"]))
+            self.formTracking.txtLokasi.setText(data["lokasi"])
+
+            idx_status = self.formTracking.cmbStatus.findText(data["status"])
+        if idx_status != -1:
+            self.formTracking.cmbStatus.setCurrentIndex(idx_status)
+
+            self.formTracking.dateTimeUpdate.setDate(
+            QDate.fromString(str(data["waktu_update"]), "yyyy-MM-dd")
+        )
+
     # -------------------- TAMPIL DATA -------------------- #
     def tampilData(self):
         baris = self.crud.tampilTracking()

@@ -105,7 +105,7 @@ class barang(QWidget):
         self.formBarang.txtNamaBarang.clear()
         self.formBarang.txtBerat.clear()
         self.formBarang.txtDeskripsi.clear()
-        self.formBarang.txtCari.clear()
+        self.formBarang.editCari.clear()
         self.tampilData()
 
     # -------------------- CARI -------------------- #
@@ -123,6 +123,19 @@ class barang(QWidget):
             self.formBarang.tableBarang.setItem(i, 3, QTableWidgetItem(str(r["berat"])))
             self.formBarang.tableBarang.setItem(i, 4, QTableWidgetItem(r["deskripsi"]))
             self.formBarang.tableBarang.setItem(i, 5, QTableWidgetItem(str(r["tanggal_input"])))
+
+    # -------------------- AUTO ISI FORM -------------------- #
+        if len(hasil) > 0:
+            data = hasil[0]   # AMBIL DATA PERTAMA
+
+            self.formBarang.txtBarangID.setText(str(data["barang_id"]))
+            self.formBarang.txtUserID.setText(str(data["user_id"]))
+            self.formBarang.txtNamaBarang.setText(data["nama_barang"])
+            self.formBarang.txtBerat.setText(str(data["berat"]))
+            self.formBarang.txtDeskripsi.setText(data["deskripsi"])
+            self.formBarang.dateTanggalInput.setDate(
+            QDate.fromString(str(data["tanggal_input"]), "yyyy-MM-dd")
+        )
 
     # -------------------- TAMPIL DATA -------------------- #
     def tampilData(self):

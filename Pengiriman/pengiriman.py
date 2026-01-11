@@ -136,6 +136,28 @@ class pengiriman(QWidget):
             self.formPengiriman.tablePengiriman.setItem(i, 7, QTableWidgetItem(str(r["tanggal_kirim"])))
             self.formPengiriman.tablePengiriman.setItem(i, 8, QTableWidgetItem(str(r["tanggal_terima"])))
 
+    # -------------------- AUTO ISI FORM -------------------- #
+            if len(hasil) > 0:
+                data = hasil[0]   # ambil data pertama
+
+                self.formPengiriman.txtPengirimanID.setText(str(data["pengiriman_id"]))
+                self.formPengiriman.txtBarangID.setText(str(data["barang_id"]))
+                self.formPengiriman.txtAsal.setText(data["asal"])
+                self.formPengiriman.txtTujuan.setText(data["tujuan"])
+                self.formPengiriman.txtJarak.setText(str(data["jarak_km"]))
+                self.formPengiriman.txtBiaya.setText(str(data["biaya_kirim"]))
+
+                idx = self.formPengiriman.cmbStatus.findText(data["status"])
+                if idx != -1:
+                    self.formPengiriman.cmbStatus.setCurrentIndex(idx)
+
+                self.formPengiriman.txtTanggalKirim.setDate(
+                    QDate.fromString(str(data["tanggal_kirim"]), "yyyy-MM-dd")
+                )
+                self.formPengiriman.txtTanggalTerima.setDate(
+                    QDate.fromString(str(data["tanggal_terima"]), "yyyy-MM-dd")
+                )
+
     # -------------------- TAMPIL DATA -------------------- #
     def tampilData(self):
         baris = self.crud.tampilPengiriman()

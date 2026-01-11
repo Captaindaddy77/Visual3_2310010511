@@ -102,6 +102,9 @@ class Ui_FormPengiriman(object):
         self.formLayout.setWidget(6, QFormLayout.ItemRole.LabelRole, self.lblStatus)
 
         self.cmbStatus = QComboBox(FormPengiriman)
+        self.cmbStatus.addItem("")
+        self.cmbStatus.addItem("")
+        self.cmbStatus.addItem("")
         self.cmbStatus.setObjectName(u"cmbStatus")
 
         self.formLayout.setWidget(6, QFormLayout.ItemRole.FieldRole, self.cmbStatus)
@@ -203,6 +206,13 @@ class Ui_FormPengiriman(object):
         self.lblJarak.setText(QCoreApplication.translate("FormPengiriman", u"Jarak (km)", None))
         self.lblBiaya.setText(QCoreApplication.translate("FormPengiriman", u"Biaya Kirim (Rp)", None))
         self.lblStatus.setText(QCoreApplication.translate("FormPengiriman", u"Status", None))
+        self.cmbStatus.setItemText(0, QCoreApplication.translate("FormPengiriman", u"diproses", None))
+        self.cmbStatus.setItemText(1, QCoreApplication.translate("FormPengiriman", u"dikirim", None))
+        self.cmbStatus.setItemText(2, QCoreApplication.translate("FormPengiriman", u"diterima", None))
+
+#if QT_CONFIG(tooltip)
+        self.cmbStatus.setToolTip(QCoreApplication.translate("FormPengiriman", u"<html><head/><body><p><br/></p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
         self.lblTanggalKirim.setText(QCoreApplication.translate("FormPengiriman", u"Tanggal Kirim", None))
         self.txtTanggalKirim.setDisplayFormat(QCoreApplication.translate("FormPengiriman", u"yyyy-MM-dd", None))
         self.lblTanggalTerima.setText(QCoreApplication.translate("FormPengiriman", u"Tanggal Terima", None))

@@ -33,6 +33,7 @@
     <addaction name="separator"/>
     <addaction name="actionKurir"/>
     <addaction name="actionTracking"/>
+    <addaction name="actionBayar"/>
    </widget>
    <addaction name="menuMenu"/>
   </widget>
@@ -65,6 +66,11 @@
   <action name="actionTracking">
    <property name="text">
     <string>Tracking</string>
+   </property>
+  </action>
+  <action name="actionBayar">
+   <property name="text">
+    <string>Bayar</string>
    </property>
   </action>
  </widget>

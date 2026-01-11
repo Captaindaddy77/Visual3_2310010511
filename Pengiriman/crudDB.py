@@ -336,6 +336,39 @@ class my_cruddb:
         cursor.close()
         return hasil
 
+    # ====================== BAYAR ======================
+    def simpanBayar(self, kode, nama_barang, harga, jumlah):
+        sql = """
+            INSERT INTO bayar
+            (kode, nama_barang, harga, jumlah)
+            VALUES (%s, %s, %s, %s)
+        """
+        self.eksekusi(sql, (kode, nama_barang, harga, jumlah))
+
+
+    def ubahBayar(self, kode, nama_barang, harga, jumlah):
+        sql = """
+            UPDATE bayar
+            SET nama_barang=%s,
+                harga=%s,
+                jumlah=%s
+            WHERE kode=%s
+        """
+        self.eksekusi(sql, (nama_barang, harga, jumlah, kode))
+
+
+    def cariBayar(self, kode):
+        cursor = self.conn.cursor(dictionary=True)
+        sql = "SELECT * FROM bayar WHERE kode=%s"
+        cursor.execute(sql, (kode,))
+        data = cursor.fetchone()
+        cursor.close()
+        return data
+
+
+    def tampilBayar(self):
+        return self.tampilData("bayar")
+
     # ====================== PENUTUP ==========================
     def __del__(self):
         try:

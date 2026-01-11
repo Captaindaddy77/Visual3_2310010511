@@ -136,6 +136,40 @@ class pembayaran(QWidget):
             self.formPembayaran.tablePembayaran.setItem(i, 4, QTableWidgetItem(r["status_bayar"]))
             self.formPembayaran.tablePembayaran.setItem(i, 5, QTableWidgetItem(str(r["tanggal_bayar"])))
 
+    # -------------------- AUTO ISI FORM -------------------- #
+            if len(hasil) > 0:
+                data = hasil[0]   # ambil data pertama
+
+                self.formPembayaran.txtPembayaranID.setText(
+                    str(data["pembayaran_id"])
+                )
+                self.formPembayaran.txtPengirimanID.setText(
+                    str(data["pengiriman_id"])
+                )
+                self.formPembayaran.txtJumlah.setText(
+                    str(data["jumlah"])
+                )
+
+                # combo metode
+                idx_metode = self.formPembayaran.comboMetode.findText(
+                    data["metode"]
+                )
+                if idx_metode != -1:
+                    self.formPembayaran.comboMetode.setCurrentIndex(idx_metode)
+
+                # combo status
+                idx_status = self.formPembayaran.comboStatus.findText(
+                    data["status_bayar"]
+                )
+                if idx_status != -1:
+                    self.formPembayaran.comboStatus.setCurrentIndex(idx_status)
+
+                # tanggal bayar
+                self.formPembayaran.dateTanggalBayar.setDate(
+                    QDate.fromString(str(data["tanggal_bayar"]), "yyyy-MM-dd")
+                )
+
+
     # -------------------- TAMPIL DATA -------------------- #
     def tampilData(self):
         baris = self.crud.tampilPembayaran()

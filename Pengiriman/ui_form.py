@@ -36,6 +36,8 @@ class Ui_Main(object):
         self.actionKurir.setObjectName(u"actionKurir")
         self.actionTracking = QAction(Main)
         self.actionTracking.setObjectName(u"actionTracking")
+        self.actionBayar = QAction(Main)
+        self.actionBayar.setObjectName(u"actionBayar")
         self.HalamanUtama = QWidget(Main)
         self.HalamanUtama.setObjectName(u"HalamanUtama")
         Main.setCentralWidget(self.HalamanUtama)
@@ -56,6 +58,7 @@ class Ui_Main(object):
         self.menuMenu.addSeparator()
         self.menuMenu.addAction(self.actionKurir)
         self.menuMenu.addAction(self.actionTracking)
+        self.menuMenu.addAction(self.actionBayar)
 
         self.retranslateUi(Main)
 
@@ -70,6 +73,7 @@ class Ui_Main(object):
         self.actionPengiriman.setText(QCoreApplication.translate("Main", u"Pengiriman", None))
         self.actionKurir.setText(QCoreApplication.translate("Main", u"Kurir", None))
         self.actionTracking.setText(QCoreApplication.translate("Main", u"Tracking", None))
+        self.actionBayar.setText(QCoreApplication.translate("Main", u"Bayar", None))
         self.menuMenu.setTitle(QCoreApplication.translate("Main", u"Menu", None))
     # retranslateUi
 

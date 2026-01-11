@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FormBayar</class>
+ <widget class="QWidget" name="FormBayar">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>607</width>
+    <height>477</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>FormBayar</string>
+  </property>
+  <widget class="QLabel" name="lblJudul">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>578</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font-size:18px; font-weight:bold; color:#2b5fab;</string>
+   </property>
+   <property name="text">
+    <string>Form Pembayaran Barang</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>50</y>
+     <width>581</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <layout class="QFormLayout" name="formLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="lblKode">
+      <property name="text">
+       <string>Kode Barang</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="txtKode"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="lblNamaBarang">
+      <property name="text">
+       <string>Nama Barang</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="txtNamaBarang"/>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="lblHarga">
+      <property name="text">
+       <string>Harga</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLineEdit" name="txtHarga"/>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="lblJumlah">
+      <property name="text">
+       <string>Jumlah</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QLineEdit" name="txtJumlah"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>200</y>
+     <width>343</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="buttonLayout">
+    <item>
+     <widget class="QPushButton" name="btnSimpan">
+      <property name="text">
+       <string>Simpan</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="btnUbah">
+      <property name="text">
+       <string>Ubah</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="btnTampil">
+      <property name="text">
+       <string>Tampil</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

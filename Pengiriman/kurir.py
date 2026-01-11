@@ -180,6 +180,22 @@ class kurir(QWidget):
             QMessageBox.critical(None, "Kesalahan", f"Gagal mencari data:\n{e}")
 
     # =======================================================
+    # AUTO ISI FORM
+    # =======================================================
+        if len(hasil) > 0:
+            data = hasil[0]
+
+            self.formKurir.txtKurirID.setText(str(data["kurir_id"]))
+            self.formKurir.txtNamaKurir.setText(data["nama_kurir"])
+            self.formKurir.txtNoHP.setText(data["no_hp"])
+            self.formKurir.txtEmail.setText(data["email"])
+            self.formKurir.txtPlatNomor.setText(data["plat_nomor"])
+
+        idx_status = self.formKurir.cmbStatus.findText(data["status"])
+        if idx_status != -1:
+            self.formKurir.cmbStatus.setCurrentIndex(idx_status)
+
+    # =======================================================
     # BERSIHKAN FORM
     # =======================================================
     def doBersihKurir(self):

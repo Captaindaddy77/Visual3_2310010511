@@ -8,6 +8,7 @@ from pembayaran import pembayaran
 from pengiriman import pengiriman
 from kurir import kurir
 from tracking import tracking
+from bayar import bayar
 
 class HalamanUtama(QMainWindow):
     def __init__(self, parent=None):
@@ -27,6 +28,7 @@ class HalamanUtama(QMainWindow):
         self.formutama.actionPengiriman.triggered.connect(self.bukapengiriman)
         self.formutama.actionKurir.triggered.connect(self.bukakurir)
         self.formutama.actionTracking.triggered.connect(self.bukatracking)
+        self.formutama.actionBayar.triggered.connect(self.bukabayar)
 
     def bukabarang(self):
         self.formbarang = barang()
@@ -47,6 +49,10 @@ class HalamanUtama(QMainWindow):
     def bukatracking(self):
         self.formtracking = tracking()
         self.formtracking.show()
+
+    def bukabayar(self):
+        self.formbayar = bayar()
+        self.formbayar.show()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 17.0.2, 2025-11-13T01:24:32. -->
+<!-- Written by QtCreator 17.0.2, 2026-01-12T01:28:10. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -251,7 +251,7 @@
      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">main.py</value>
      <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.</value>
      <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">D:/uniska/qtproject/Visual3_2310010511/Pengiriman/main.py</value>
-     <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
+     <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">true</value>
      <value type="QString" key="PythonEditor.RunConfiguation.Script">D:\uniska\qtproject\Visual3_2310010511\Pengiriman\main.py</value>
      <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
      <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
@@ -316,7 +316,7 @@
      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">main.py</value>
      <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.</value>
      <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">D:/uniska/qtproject/Visual3_2310010511/Pengiriman/main.py</value>
-     <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
+     <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">true</value>
      <value type="QString" key="PythonEditor.RunConfiguation.Script">D:\uniska\qtproject\Visual3_2310010511\Pengiriman\main.py</value>
      <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
      <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
@@ -352,7 +352,7 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">main.py</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">D:/uniska/qtproject/Visual3_2310010511/Pengiriman/main.py</value>
-    <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
+    <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">true</value>
     <value type="QString" key="PythonEditor.RunConfiguation.Script">D:\uniska\qtproject\Visual3_2310010511\Pengiriman\main.py</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
