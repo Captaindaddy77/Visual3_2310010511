@@ -15,8 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFormLayout, QHBoxLayout, QLabel,
-    QLineEdit, QPushButton, QSizePolicy, QWidget)
+from PySide6.QtWidgets import (QApplication, QFormLayout, QHBoxLayout, QHeaderView,
+    QLabel, QLineEdit, QPushButton, QSizePolicy,
+    QTableWidget, QTableWidgetItem, QWidget)
 
 class Ui_FormBayar(object):
     def setupUi(self, FormBayar):
@@ -90,11 +91,20 @@ class Ui_FormBayar(object):
 
         self.buttonLayout.addWidget(self.btnUbah)
 
-        self.btnTampil = QPushButton(self.layoutWidget_2)
-        self.btnTampil.setObjectName(u"btnTampil")
-
-        self.buttonLayout.addWidget(self.btnTampil)
-
+        self.tableBarang = QTableWidget(FormBayar)
+        if (self.tableBarang.columnCount() < 4):
+            self.tableBarang.setColumnCount(4)
+        __qtablewidgetitem = QTableWidgetItem()
+        self.tableBarang.setHorizontalHeaderItem(0, __qtablewidgetitem)
+        __qtablewidgetitem1 = QTableWidgetItem()
+        self.tableBarang.setHorizontalHeaderItem(1, __qtablewidgetitem1)
+        __qtablewidgetitem2 = QTableWidgetItem()
+        self.tableBarang.setHorizontalHeaderItem(2, __qtablewidgetitem2)
+        __qtablewidgetitem3 = QTableWidgetItem()
+        self.tableBarang.setHorizontalHeaderItem(3, __qtablewidgetitem3)
+        self.tableBarang.setObjectName(u"tableBarang")
+        self.tableBarang.setGeometry(QRect(50, 250, 501, 181))
+        self.tableBarang.setColumnCount(4)
 
         self.retranslateUi(FormBayar)
 
@@ -110,6 +120,13 @@ class Ui_FormBayar(object):
         self.lblJumlah.setText(QCoreApplication.translate("FormBayar", u"Jumlah", None))
         self.btnSimpan.setText(QCoreApplication.translate("FormBayar", u"Simpan", None))
         self.btnUbah.setText(QCoreApplication.translate("FormBayar", u"Ubah", None))
-        self.btnTampil.setText(QCoreApplication.translate("FormBayar", u"Tampil", None))
+        ___qtablewidgetitem = self.tableBarang.horizontalHeaderItem(0)
+        ___qtablewidgetitem.setText(QCoreApplication.translate("FormBayar", u"Kode Barang", None));
+        ___qtablewidgetitem1 = self.tableBarang.horizontalHeaderItem(1)
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("FormBayar", u"Nama Barang", None));
+        ___qtablewidgetitem2 = self.tableBarang.horizontalHeaderItem(2)
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("FormBayar", u"Harga", None));
+        ___qtablewidgetitem3 = self.tableBarang.horizontalHeaderItem(3)
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("FormBayar", u"Jumlah", None));
     # retranslateUi
 

@@ -135,6 +135,9 @@
    </item>
    <item>
     <widget class="QTableWidget" name="tableBarang">
+     <property name="verticalScrollBarPolicy">
+      <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOn</enum>
+     </property>
      <property name="columnCount">
       <number>6</number>
      </property>

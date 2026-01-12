@@ -356,18 +356,11 @@ class my_cruddb:
         """
         self.eksekusi(sql, (nama_barang, harga, jumlah, kode))
 
-
-    def cariBayar(self, kode):
+    def dataBayar(self):
         cursor = self.conn.cursor(dictionary=True)
-        sql = "SELECT * FROM bayar WHERE kode=%s"
-        cursor.execute(sql, (kode,))
-        data = cursor.fetchone()
-        cursor.close()
-        return data
-
-
-    def tampilBayar(self):
-        return self.tampilData("bayar")
+        sql = "SELECT * FROM bayar"
+        cursor.execute(sql)
+        return cursor.fetchall()
 
     # ====================== PENUTUP ==========================
     def __del__(self):

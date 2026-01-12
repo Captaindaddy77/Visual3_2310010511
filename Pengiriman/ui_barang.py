@@ -146,6 +146,7 @@ class Ui_FormBarang(object):
         __qtablewidgetitem5 = QTableWidgetItem()
         self.tableBarang.setHorizontalHeaderItem(5, __qtablewidgetitem5)
         self.tableBarang.setObjectName(u"tableBarang")
+        self.tableBarang.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
         self.tableBarang.setColumnCount(6)
 
         self.verticalLayout.addWidget(self.tableBarang)

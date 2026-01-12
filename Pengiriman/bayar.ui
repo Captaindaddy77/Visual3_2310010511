@@ -108,14 +108,40 @@
       </property>
      </widget>
     </item>
-    <item>
-     <widget class="QPushButton" name="btnTampil">
-      <property name="text">
-       <string>Tampil</string>
-      </property>
-     </widget>
-    </item>
    </layout>
+  </widget>
+  <widget class="QTableWidget" name="tableBarang">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>250</y>
+     <width>501</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <property name="columnCount">
+    <number>4</number>
+   </property>
+   <column>
+    <property name="text">
+     <string>Kode Barang</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Nama Barang</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Harga</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Jumlah</string>
+    </property>
+   </column>
   </widget>
  </widget>
  <resources/>
